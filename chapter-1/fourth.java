@@ -1,0 +1,49 @@
+class fourth{
+    static boolean isPermutationOfPalindrome(String phrase) {
+        int[] table = buildCharFrequencyTable(phrase);//this function returns the hash table for the string that is passed
+        return checkMaxOneOdd(table);//this function checks whether there are more than one odd number count in the table 
+    }
+
+    //check that no more than one character has an odd count
+    static boolean checkMaxOneOdd(int[] table) {
+        boolean foundOdd = false;
+        for(int count : table) {
+            if(count%2 == 1) {
+                if(foundOdd){
+                    return false;
+                }
+                foundOdd = true;
+            }
+        }
+        return true;
+    }
+
+    //map each character to a number .a->0 , b->1, c->2.This is case sensitive no letter characters maps to -1
+    static int getCharNumber(Character c) {
+        int a = Character.getNumericValue('a');
+        int z = Character.getNumericValue('z');
+        int val  = Character.getNumericValue(c);
+        if(a <= val && val <= z) {
+            return val-a;
+        }
+        return -1;
+    }
+
+    //count how many times each character appears
+    static int[] buildCharFrequencyTable(String phrase) {
+        int[] table = new int[Character.getNumericValue('z') - Character.getNumericValue('a') + 1];
+        for(char c : phrase.toCharArray()) {
+            int x = getCharNumber(c);
+            if(x != -1) {
+                table[x]++;
+            }
+        }
+        return table;
+    }
+
+
+    public static void main(String[] args) {
+        boolean ans = isPermutationOfPalindrome("naman");
+        System.out.println(ans);
+    }
+}
